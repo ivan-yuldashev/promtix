@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": ".cache/tsbuildinfo.dev",
+    "noEmit": true,
+    "sourceMap": true
+  }
+}

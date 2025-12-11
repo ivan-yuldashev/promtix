@@ -1,0 +1,72 @@
+{
+  "name": "promtix",
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.18.0+sha512.e804f889f1cecc40d572db084eec3e4881739f8dec69c0ff10d2d1beff9a4e309383ba27b5b750059d7f4c149535b6cd0d2cb1ed3aeb739239a4284a68f40cfa",
+  "license": "GNU AGPL v3.0",
+  "engines": {
+    "node": "24.x"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/src/index.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "pnpm lint --fix",
+    "test": "cross-env NODE_ENV=test vitest",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "format": "prettier --check . --ignore-unknown",
+    "format:fix": "prettier --write . --ignore-unknown",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@better-auth/utils": "^0.3.0",
+    "@godaddy/terminus": "^4.12.1",
+    "@hono/node-server": "^1.19.5",
+    "@hono/zod-openapi": "^1.1.3",
+    "@noble/hashes": "^2.0.1",
+    "@scalar/hono-api-reference": "^0.9.19",
+    "dotenv": "^17.2.3",
+    "dotenv-expand": "^12.0.3",
+    "drizzle-orm": "^0.44.5",
+    "drizzle-zod": "^0.8.3",
+    "hono": "^4.9.9",
+    "hono-pino": "^0.10.3",
+    "jose": "^6.1.3",
+    "pg": "^8.16.3",
+    "pino": "^10.0.0",
+    "stoker": "2.0.1",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^5.4.1",
+    "@types/node": "^24.6.1",
+    "@types/pg": "^8.15.5",
+    "cross-env": "^10.1.0",
+    "drizzle-kit": "^0.31.5",
+    "eslint": "^9.36.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-format": "^1.0.2",
+    "eslint-plugin-prettier": "^5.5.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "prettier": "^3.6.2",
+    "tsc-alias": "^1.8.16",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.4"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,mjs}": [
+      "prettier --write --ignore-unknown",
+      "eslint --fix --quiet"
+    ],
+    "*.{md,mdx,json,yml}": [
+      "prettier --write --ignore-unknown"
+    ]
+  }
+}
