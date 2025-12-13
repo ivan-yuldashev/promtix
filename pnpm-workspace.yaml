@@ -1,3 +1,9 @@
+catalogMode: prefer
+
+shellEmulator: true
+
+trustPolicy: no-downgrade
+
 packages:
   - apps/*
 
@@ -52,12 +58,6 @@ catalog:
   vitest: ^3.2.4
   zod: ^4.1.11
 
-catalogMode: prefer
-
 onlyBuiltDependencies:
   - esbuild
   - '@swc/core'
-
-shellEmulator: true
-
-trustPolicy: no-downgrade
