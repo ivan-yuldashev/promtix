@@ -1,0 +1,46 @@
+{
+  "name": "@promtix/backend",
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/src/index.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "cross-env NODE_ENV=test vitest",
+    "build": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "clean": "rimraf dist node_modules"
+  },
+  "dependencies": {
+    "@better-auth/utils": "catalog:",
+    "@godaddy/terminus": "catalog:",
+    "@hono/node-server": "catalog:",
+    "@hono/zod-openapi": "catalog:",
+    "@noble/hashes": "catalog:",
+    "@scalar/hono-api-reference": "catalog:",
+    "dotenv": "catalog:",
+    "dotenv-expand": "catalog:",
+    "drizzle-orm": "catalog:",
+    "drizzle-zod": "catalog:",
+    "hono": "catalog:",
+    "hono-pino": "catalog:",
+    "jose": "catalog:",
+    "pg": "catalog:",
+    "pino": "catalog:",
+    "stoker": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/pg": "catalog:",
+    "cross-env": "catalog:",
+    "drizzle-kit": "catalog:",
+    "tsc-alias": "catalog:",
+    "tsx": "catalog:",
+    "vitest": "catalog:"
+  }
+}
