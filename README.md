@@ -46,7 +46,7 @@ If this tool saves you time or money in production, consider sponsoring the deve
 
 _Corporate sponsorships with logo placement are available. Contact us for details._
 
-### License
+## License
 
 This project is licensed under the **GNU AGPL v3**.
 
