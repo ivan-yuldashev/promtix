@@ -1,4 +1,4 @@
-export enum ApiRootPath {
+export enum RootPath {
   INTERNAL = '/internal',
   V1 = '/api/v1',
   V2 = '/api/v2',

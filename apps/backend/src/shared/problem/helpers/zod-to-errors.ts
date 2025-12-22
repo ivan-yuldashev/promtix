@@ -1,6 +1,6 @@
 import type { z } from 'zod';
 
-import type { BodyLikeTarget, NonBodyTarget, PointerError, SourceError, TargetValue } from '@/shared/problem/types';
+import type { BodyLikeTarget, NonBodyTarget, PointerError, SourceError, TargetValue } from '@/shared/problem/problem.types';
 
 import { isBodyLikeTarget } from '@/shared/problem/helpers/is-body-like-target';
 

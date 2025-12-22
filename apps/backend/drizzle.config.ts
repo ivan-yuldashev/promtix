@@ -1,6 +1,7 @@
 import { defineConfig } from 'drizzle-kit';
 
-import { databaseUri } from '@/infrastructure/config/env';
+// eslint-disable-next-line no-restricted-imports
+import { databaseUri } from './src/infrastructure/config/env';
 
 export default defineConfig({
   dbCredentials: {
@@ -8,5 +9,5 @@ export default defineConfig({
   },
   dialect: 'postgresql',
   out: './src/infrastructure/db/migrations',
-  schema: './src/infrastructure/db/schema',
+  schema: './src/infrastructure/db/schema.ts',
 });

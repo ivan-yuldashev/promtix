@@ -1,5 +1,5 @@
-import type { Problem, ProblemOptions, TargetValue, ValidationProblem } from '@/shared/problem/types';
-import type { HttpErrorStatusName } from '@/shared/types/statuses';
+import type { Problem, ProblemOptions, TargetValue, ValidationProblem } from '@/shared/problem/problem.types';
+import type { HttpErrorStatusName } from '@/shared/types/statuses.types';
 
 import { HttpStatusCodes } from '@/shared/constants/http-status-codes';
 import { HttpErrorDetails } from '@/shared/problem/constants/http-error-details';

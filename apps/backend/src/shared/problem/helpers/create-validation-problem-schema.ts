@@ -1,12 +1,12 @@
-import type { TargetValue } from '@/shared/problem/types';
-import type { HttpErrorStatusName } from '@/shared/types/statuses';
+import type { TargetValue } from '@/shared/problem/problem.types';
+import type { HttpErrorStatusName } from '@/shared/types/statuses.types';
 
 import { z } from 'zod';
 
 import { createProblemSchema } from '@/shared/problem/helpers/create-problem-schema';
 import { createSourceErrorSchema } from '@/shared/problem/helpers/create-source-error-schema';
 import { isBodyLikeTarget } from '@/shared/problem/helpers/is-body-like-target';
-import { pointerErrorSchema } from '@/shared/problem/schemas/base-problem-schema';
+import { pointerErrorSchema } from '@/shared/problem/schemas/base-problem.schema';
 
 export function createValidationProblemSchema<N extends HttpErrorStatusName>(statusName: N, target: TargetValue) {
   const errorSchema = isBodyLikeTarget(target) ? pointerErrorSchema : createSourceErrorSchema(target);

@@ -1,4 +1,4 @@
-import type { AppBindings } from '@/app/types';
+import type { AppBindings } from '@/app/app.types';
 
 import { createMiddleware } from 'hono/factory';
 import { z } from 'zod';

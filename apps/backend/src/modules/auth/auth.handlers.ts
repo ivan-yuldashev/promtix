@@ -1,18 +1,18 @@
-import type { AppRouteHandler } from '@/app/types';
+import type { AppRouteHandler } from '@/app/app.types';
 import type { LoginRoute, LogoutRoute, RefreshRoute, RegisterRoute } from '@/modules/auth/auth.routes';
 
 import { deleteCookie, getCookie } from 'hono/cookie';
 
 import { env } from '@/infrastructure/config/env';
+import { REFRESH_COOKIE_CONFIG } from '@/modules/auth/constants/refresh-cookie-config';
 import { setCookie } from '@/modules/auth/helpers/set-cookie';
 import { HttpStatusCodes } from '@/shared/constants/http-status-codes';
-import { V1Path } from '@/shared/constants/paths';
 import { problem } from '@/shared/problem/problem';
 import { isNil } from '@/shared/utils/is-nil';
 
 export const login: AppRouteHandler<LoginRoute> = async (c) => {
   const { email, password } = c.req.valid('json');
-  const auth = c.get('auth');
+  const { auth } = c.get('services');
 
   const data = await auth.login({ email, password });
 
@@ -27,39 +27,38 @@ export const login: AppRouteHandler<LoginRoute> = async (c) => {
 };
 
 export const logout: AppRouteHandler<LogoutRoute> = async (c) => {
-  const auth = c.get('auth');
+  const { auth } = c.get('services');
 
   const rawRefreshToken = getCookie(c, env.COOKIE_NAME);
+  deleteCookie(c, env.COOKIE_NAME, REFRESH_COOKIE_CONFIG);
 
   if (isNil(rawRefreshToken)) {
     return c.body(null, HttpStatusCodes.NO_CONTENT);
   }
 
   await auth.logout(rawRefreshToken);
-  deleteCookie(c, env.COOKIE_NAME, { path: V1Path.REFRESH_TOKEN });
 
   return c.body(null, HttpStatusCodes.NO_CONTENT);
 };
 
 export const register: AppRouteHandler<RegisterRoute> = async (c) => {
-  const { email, password } = c.req.valid('json');
-  const auth = c.get('auth');
+  const data = c.req.valid('json');
+  const { auth } = c.get('services');
 
-  const data = await auth.register({ email, password });
+  const registerData = await auth.register(data);
 
-  if (isNil(data)) {
+  if (isNil(registerData)) {
     return problem.conflict(c);
   }
 
-  const { refreshExpiresAt, refreshToken, ...rest } = data;
+  const { refreshExpiresAt, refreshToken, ...rest } = registerData;
   setCookie(c, refreshToken, refreshExpiresAt);
 
   return c.json(rest, HttpStatusCodes.CREATED);
 };
 
 export const refresh: AppRouteHandler<RefreshRoute> = async (c) => {
-  const auth = c.get('auth');
-
+  const { auth } = c.get('services');
   const rawRefreshToken = getCookie(c, env.COOKIE_NAME);
 
   if (isNil(rawRefreshToken)) {

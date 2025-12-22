@@ -1,4 +1,4 @@
-import type { BodyLikeTarget, TargetValue } from '@/shared/problem/types';
+import type { BodyLikeTarget, TargetValue } from '@/shared/problem/problem.types';
 
 import { Target } from '@/shared/problem/constants/target';
 

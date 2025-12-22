@@ -1,9 +1,9 @@
-import { orm } from '@/infrastructure/db/orm';
+import { db } from '@/infrastructure/db/db';
 import { pino } from '@/infrastructure/logging/pino';
 
 export async function checkDatabaseConnection() {
   try {
-    await orm.execute('SELECT 1');
+    await db.execute('SELECT 1');
     pino.info('The database has been successfully connected.');
   }
   catch (error) {
