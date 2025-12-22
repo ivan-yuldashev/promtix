@@ -1,8 +1,8 @@
-import type { NonBodyTarget } from '@/shared/problem/types';
+import type { NonBodyTarget } from '@/shared/problem/problem.types';
 
 import z from 'zod';
 
-import { sourceErrorSchema } from '@/shared/problem/schemas/base-problem-schema';
+import { sourceErrorSchema } from '@/shared/problem/schemas/base-problem.schema';
 
 export function createSourceErrorSchema(target: NonBodyTarget) {
   return sourceErrorSchema.safeExtend({

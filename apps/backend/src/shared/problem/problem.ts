@@ -1,7 +1,7 @@
 import type { Context, ValidationTargets } from 'hono';
 
-import type { ProblemOptions } from '@/shared/problem/types';
-import type { HttpErrorStatusName } from '@/shared/types/statuses';
+import type { ProblemOptions } from '@/shared/problem/problem.types';
+import type { HttpErrorStatusName } from '@/shared/types/statuses.types';
 
 import { HttpStatusName } from '@/shared/constants/http-status-name';
 import { problemResponse } from '@/shared/problem/helpers/problem-response';

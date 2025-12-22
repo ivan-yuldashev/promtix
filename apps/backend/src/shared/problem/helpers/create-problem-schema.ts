@@ -1,5 +1,5 @@
-import type { ErrorStatusCode } from '@/shared/problem/types';
-import type { HttpErrorStatusName } from '@/shared/types/statuses';
+import type { ErrorStatusCode } from '@/shared/problem/problem.types';
+import type { HttpErrorStatusName } from '@/shared/types/statuses.types';
 
 import { z } from 'zod';
 

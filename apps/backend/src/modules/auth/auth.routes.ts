@@ -8,7 +8,7 @@ import {
   refreshResponseSchema,
   registerRequestSchema,
   registerResponseSchema,
-} from '@/modules/auth/auth.schemas';
+} from '@/modules/auth/schemas/auth.schema';
 import { HttpStatusName } from '@/shared/constants/http-status-name';
 import { V1Path } from '@/shared/constants/paths';
 import { internalServerErrorResponse, unauthorizedResponse } from '@/shared/openapi/common-responses';

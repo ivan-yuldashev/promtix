@@ -1,4 +1,4 @@
-import type { InferSelectModel } from 'drizzle-orm';
+import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 import type { PgColumn, PgTable } from 'drizzle-orm/pg-core';
 
 import type {
@@ -9,29 +9,27 @@ import type {
   FindByIdParams,
   FindByParams,
   Repository,
-  StrictShape,
   UpdateByIdParams,
   UpdateByParams,
-} from '@/shared/types/repository';
-import type { BaseFieldsName, WithoutBaseFields } from '@/shared/types/utils';
+} from '@/shared/types/repository.types';
+import type { BaseEntity, BaseEntityKeys } from '@/shared/types/utils.types';
 
 import { count, eq } from 'drizzle-orm';
 
-import { orm as db } from '@/infrastructure/db/orm';
+import { getExecutor } from '@/infrastructure/db/context';
 import { sortToSql } from '@/shared/helpers/sort-to-sql';
 
 export class BaseRepository<
-  Table extends PgTable & Record<BaseFieldsName, PgColumn>,
-  Data extends object = InferSelectModel<Table>,
-> implements Repository<Data> {
-  protected readonly table: Table;
-
-  constructor(table: Table) {
-    this.table = table;
-  }
+  Table extends PgTable & Record<BaseEntityKeys, PgColumn>,
+  Select extends BaseEntity = InferSelectModel<Table> & BaseEntity,
+  Insert extends object = InferInsertModel<Table>,
+> implements Repository<Select, Insert> {
+  constructor(protected readonly table: Table) {}
 
   async count({ where }: CountParams) {
-    const [countResult] = await db
+    const executor = getExecutor();
+
+    const [countResult] = await executor
       .select({ value: count() })
       .from(this.table as PgTable)
       .where(where);
@@ -39,77 +37,91 @@ export class BaseRepository<
     return countResult?.value ?? 0;
   }
 
-  async create<D extends WithoutBaseFields<Data>>({ data }: CreateParams<StrictShape<D, WithoutBaseFields<Data>>>) {
-    const [insertedItem] = await db
+  async create({ data }: CreateParams<Insert>) {
+    const executor = getExecutor();
+
+    const [insertedItem] = await executor
       .insert(this.table as PgTable)
       .values(data)
       .returning();
 
-    return insertedItem as Data | undefined;
+    return insertedItem as Select | undefined;
   }
 
   async deleteBy({ where }: DeleteByParams) {
-    const deletedItems = await db
+    const executor = getExecutor();
+
+    const deletedItems = await executor
       .delete(this.table as PgTable)
       .where(where)
       .returning();
 
-    return deletedItems as Data[];
+    return deletedItems as Select[];
   }
 
-  async deleteById({ id }: DeleteByIdParams<Data>) {
-    const [deletedItem] = await db
-      .delete(this.table as PgTable)
+  async deleteById({ id }: DeleteByIdParams<Select>) {
+    const executor = getExecutor();
+
+    const [deletedItem] = await executor
+      .delete(this.table)
       .where(eq(this.table.id, id))
       .returning();
 
-    return deletedItem as Data | undefined;
+    return deletedItem as Select | undefined;
   }
 
-  async findBy({ limit, offset, sort, where }: FindByParams<Data>) {
-    const results = await db
+  async findBy({ limit, offset, sort, where }: FindByParams<Select>) {
+    const executor = getExecutor();
+
+    const results = await executor
       .select()
       .from(this.table as PgTable)
       .where(where)
-      .orderBy(...sortToSql<Data, Table>(sort ?? ['createdAt'], this.table))
+      .orderBy(...sortToSql<Select, Table>(sort ?? ['createdAt'], this.table))
       .limit(limit)
       .offset(offset);
 
-    return results as Data[];
+    return results as Select[];
   }
 
-  async findById({ id }: FindByIdParams<Data>) {
-    const [item] = await db
+  async findById({ id }: FindByIdParams<Select>) {
+    const executor = getExecutor();
+
+    const [item] = await executor
       .select()
       .from(this.table as PgTable)
       .where(eq(this.table.id, id));
 
-    return item as Data | undefined;
+    return item as Select | undefined;
   }
 
-  async updateBy<D extends Partial<WithoutBaseFields<Data>>>({
+  async updateBy({
     data,
     where,
-  }: UpdateByParams<StrictShape<D, WithoutBaseFields<Data>>>) {
-    const updatedItems = await db
-      .update(this.table as PgTable)
+  }: UpdateByParams<Partial<Insert>>) {
+    const executor = getExecutor();
+
+    const updatedItems = await executor
+      .update(this.table)
       .set(data)
       .where(where)
       .returning();
 
-    return updatedItems as Data[];
+    return updatedItems as Select[];
   }
 
-  async updateById<D extends Partial<WithoutBaseFields<Data>>>({
+  async updateById({
     data,
     id,
-  }: UpdateByIdParams<StrictShape<D, WithoutBaseFields<Data>>>) {
-    const [updatedItem] = await db
+  }: UpdateByIdParams<Select, Partial<Insert>>) {
+    const executor = getExecutor();
+
+    const [updatedItem] = await executor
       .update(this.table as PgTable)
       .set(data)
       .where(eq(this.table.id, id))
       .returning();
 
-    return updatedItem as Data | undefined;
+    return updatedItem as Select | undefined;
   }
 }

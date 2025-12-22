@@ -1,6 +1,6 @@
 import type { Context } from 'hono';
 
-import type { AppBindings } from '@/app/types';
+import type { AppBindings } from '@/app/app.types';
 
 import { DrizzleQueryError } from 'drizzle-orm';
 import { HTTPException } from 'hono/http-exception';

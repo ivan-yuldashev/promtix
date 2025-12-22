@@ -2,8 +2,8 @@ import type { Context, TypedResponse, ValidationTargets } from 'hono';
 import type { ClientErrorStatusCode, ServerErrorStatusCode } from 'hono/utils/http-status';
 import type { JSONParsed, JSONValue } from 'hono/utils/types';
 
-import type { ErrorStatusCode, Problem, ProblemOptions, ValidationProblem } from '@/shared/problem/types';
-import type { HttpErrorStatusName } from '@/shared/types/statuses';
+import type { ErrorStatusCode, Problem, ProblemOptions, ValidationProblem } from '@/shared/problem/problem.types';
+import type { HttpErrorStatusName } from '@/shared/types/statuses.types';
 
 import { HttpStatusCodes } from '@/shared/constants/http-status-codes';
 import { createProblem } from '@/shared/problem/create-problem';

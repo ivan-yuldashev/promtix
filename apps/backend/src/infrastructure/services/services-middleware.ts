@@ -1,18 +1,30 @@
-import type { AppBindings } from '@/app/types';
+import type { AppBindings } from '@/app/app.types';
 
 import { createMiddleware } from 'hono/factory';
 
-import { refreshTokens, tasks, users } from '@/infrastructure/db/schema';
-import { createServices } from '@/infrastructure/services/helpers/create-services';
-import { AuthService } from '@/modules/auth/auth.service';
-import { BaseRepository } from '@/shared/core/base.repository';
+import { apiKeysService } from '@/modules/api-auth/api-keys.service';
+import { authService } from '@/modules/auth/auth.service';
+import { environmentsService } from '@/modules/environments/environments.service';
+import { projectsService } from '@/modules/projects/projects.service';
+import { deploymentsService } from '@/modules/prompts/deployments.service';
+import { promptVersionsService } from '@/modules/prompts/prompt-versions.service';
+import { promptsService } from '@/modules/prompts/prompts.service';
+import { usersService } from '@/modules/users/users.service';
+import { workspacesService } from '@/modules/workspaces/workspaces.service';
 
-const services = createServices([users, tasks] as const);
-const auth = new AuthService(new BaseRepository(users), new BaseRepository(refreshTokens));
+const services = {
+  apiKeys: apiKeysService,
+  auth: authService,
+  deployments: deploymentsService,
+  environments: environmentsService,
+  projects: projectsService,
+  prompts: promptsService,
+  promptVersions: promptVersionsService,
+  users: usersService,
+  workspaces: workspacesService,
+};
 
 export const servicesMiddleware = createMiddleware<AppBindings>(async (c, next) => {
   c.set('services', services);
-  c.set('auth', auth);
-
   await next();
 });

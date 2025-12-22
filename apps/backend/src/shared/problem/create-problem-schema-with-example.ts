@@ -1,7 +1,7 @@
 import type { ValidationTargets } from 'hono';
 
-import type { TargetValue } from '@/shared/problem/types';
-import type { HttpErrorStatusName } from '@/shared/types/statuses';
+import type { TargetValue } from '@/shared/problem/problem.types';
+import type { HttpErrorStatusName } from '@/shared/types/statuses.types';
 
 import { z } from '@hono/zod-openapi';
 

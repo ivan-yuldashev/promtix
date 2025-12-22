@@ -1,13 +1,13 @@
 import type { AnyColumn } from 'drizzle-orm';
 import type { PgTable } from 'drizzle-orm/pg-core';
 
-import type { Sort } from '@/shared/types/repository';
-import type { BaseFieldsName } from '@/shared/types/utils';
+import type { Sort } from '@/shared/types/repository.types';
+import type { BaseEntityKeys } from '@/shared/types/utils.types';
 
 import { asc, desc } from 'drizzle-orm';
 
 export function sortToSql<Select, Table extends PgTable>(
-  sort: Sort<BaseFieldsName | Extract<keyof Select, string>>,
+  sort: Sort<BaseEntityKeys | Extract<keyof Select, string>>,
   table: Table,
 ) {
   return sort.map(item =>
